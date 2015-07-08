@@ -1,21 +1,39 @@
-# Onepager v0.1 #
+# Onepager 0.1 #
 
-´this´ is the nav containing an ul list containing li elements with a elements in.
- 
-Usage:
-Name the href attributes of the menu links to the same id as the section it refers 
-to and the menu should be generated. use class onepager-title on the li title 
-element to exclude it from the animations: `<li class="onepager-title">`.
-Example:
-`<a href="/#home">Go to home</a>`
+A plugin that handles mobile menus and menu highlighting.
 
-`<section id="home"></section>`
-Author: Alfred Yrelin
-URL: soon
+## Requirements ##
+- jQuery
+- The stylesheet requires less.
 
+## Usage ##
 
+### Setup ###
 
-SETTINGS
+`$('#menu').onepager();`
+
+The `#menu` should be designed similar to:
+`<nav id="menu">
+	<ul>
+		<li><a href="#first">First</a></li>
+		<li><a href="#second">Second</a></li>
+		<li><a href="#third">Third</a></li>
+		<li><a href="#fourth">Fourth</a></li>
+	</ul>
+</nav>`
+
+where each href attribute is the id of the sections that should be viewed:
+
+`<section id="first">
+</section>
+<section id="second">
+</section>
+<section id="third">
+</section>
+<section id="fourth">
+</section>`
+
+### Settings ###
 
 mobile:
 Width where mobile menu is toggled.
@@ -24,3 +42,9 @@ type:
 bar - show a color bar as active indicator
 color - highlight active link with color
 
+
+# Author #
+
+Author: Alfred Yrelin
+Contact: alfred@yrelin.se
+Website: http://www.yrelin.se
