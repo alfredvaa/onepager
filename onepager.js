@@ -1,39 +1,12 @@
 (function($){
 	$.fn.onepager = function(options) {
-		/** 
-		 * ´this´ is the nav containing an ul list containing li elements with a elements in.
-		 *  
-		 * Usage:
-		 * Name the href attributes of the menu links to the same id as the section it refers 
-		 * to and the menu should be generated. use class onepager-title on the li title 
-		 * element to exclude it from the animations: <li class="onepager-title">.
-		 *
-		 * Example:
-		 * <a href="/#home">Go to home</a>
-		 * 
-		 * <section id="home"></section>
-		 *
-		 * Author: Alfred Yrelin
-		 * URL: soon
-		 */
 
 		var wrapper = this;
 		var isAnimatied = false;
 		var lockSlideDown = false;
-
 		var body = $('body');
 
-		/**
-		* SETTINGS
-		*
-		* mobile:
-		*	Width where mobile menu is toggled.
-		* 
-		* type:
-		* 	bar - show a color bar as active indicator
-		* 	color - highlight active link with color
-		* 
-		*/
+
 		var settings = $.extend({
 			mobile: 768,
 			type: 'bar',
@@ -46,6 +19,7 @@
 								<span class='onepager-menu-bar'></span>\
 								<span class='onepager-menu-bar'></span>"
 		}, options);
+
 
 		wrapper.addClass(settings.customWrapperClass);
 
