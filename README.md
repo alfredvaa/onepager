@@ -5,11 +5,11 @@
 Usage:
 Name the href attributes of the menu links to the same id as the section it refers 
 to and the menu should be generated. use class onepager-title on the li title 
-element to exclude it from the animations: <li class="onepager-title">.
+element to exclude it from the animations: `<li class="onepager-title">`.
 Example:
-<a href="/#home">Go to home</a>
+`<a href="/#home">Go to home</a>`
 
-<section id="home"></section>
+`<section id="home"></section>`
 Author: Alfred Yrelin
 URL: soon
 
