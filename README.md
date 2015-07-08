@@ -13,25 +13,29 @@ A plugin that handles mobile menus and menu highlighting.
 `$('#menu').onepager();`
 
 The `#menu` should be designed similar to:
-`<nav id="menu">
+```
+<nav id="menu">
 	<ul>
 		<li><a href="#first">First</a></li>
 		<li><a href="#second">Second</a></li>
 		<li><a href="#third">Third</a></li>
 		<li><a href="#fourth">Fourth</a></li>
 	</ul>
-</nav>`
+</nav>
+```
 
 where each href attribute is the id of the sections that should be viewed:
 
-`<section id="first">
+```
+<section id="first">
 </section>
 <section id="second">
 </section>
 <section id="third">
 </section>
 <section id="fourth">
-</section>`
+</section>
+```
 
 ### Settings ###
 
