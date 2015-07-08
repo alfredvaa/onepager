@@ -39,13 +39,41 @@ where each href attribute is the id of the sections that should be viewed:
 
 ### Settings ###
 
-mobile:
-Width where mobile menu is toggled.
+Settings is passed as attributes:
+```
+$('#menu').onepager({ 
+	setting: value 
+});
+```
 
-type:
-bar - show a color bar as active indicator
-color - highlight active link with color
+#### General ####
 
+##### activeType #####
+Defines the type of highlight for active links.
+- 'bar' - set a bar above the active link.
+- 'color' - highlight by text color.
+- 'box' - highlight by background color.
+- 'none'
+Default is 'bar'.
+
+#### Mobile ####
+##### mobileBreakpoint #####
+The breakpoint in px. Default is 768.
+
+##### mobilePosition #####
+The position of the mobile menu. 'top', 'left' or 'right'. Default is 'top'.
+
+##### mobileToggleFloat #####
+Set the toggle icon to either 'left' or 'right'. Default is 'left'.
+
+##### mobileMenuWidth #####
+If mobilePosition is either left or right, then this defines the width of the menu. Given in %. Default is '70%'.
+
+##### mobileMenuFixed #####
+If the top menu bar should be fixed or not. Default is false.
+
+##### mobileToggleIcon #####
+Set a custom menu icon. Default is the hamburger.
 
 # Author #
 
