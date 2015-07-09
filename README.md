@@ -1,26 +1,87 @@
-# Onepager v0.1 #
+# Onepager 0.1 #
 
-´this´ is the nav containing an ul list containing li elements with a elements in.
- 
-Usage:
-Name the href attributes of the menu links to the same id as the section it refers 
-to and the menu should be generated. use class onepager-title on the li title 
-element to exclude it from the animations: `<li class="onepager-title">`.
-Example:
-`<a href="/#home">Go to home</a>`
+A plugin that handles mobile menus and menu highlighting.
 
-`<section id="home"></section>`
+## Requirements ##
+- jQuery
+- The stylesheet requires less.
+
+## Usage ##
+
+### Setup ###
+
+`$('#menu').onepager();`
+
+The `#menu` should be designed similar to:
+```
+<nav id="menu">
+	<ul>
+		<li><a href="#first">First</a></li>
+		<li><a href="#second">Second</a></li>
+		<li><a href="#third">Third</a></li>
+		<li><a href="#fourth">Fourth</a></li>
+	</ul>
+</nav>
+```
+
+where each href attribute is the id of the sections that should be viewed:
+
+```
+<section id="first">
+</section>
+<section id="second">
+</section>
+<section id="third">
+</section>
+<section id="fourth">
+</section>
+```
+
+### Settings ###
+
+Settings is passed as attributes:
+```
+$('#menu').onepager({ 
+	setting: value 
+});
+```
+
+#### General ####
+
+##### activeType #####
+Defines the type of highlight for active links.
+- 'bar' - set a bar above the active link.
+- 'color' - highlight by text color.
+- 'box' - highlight by background color.
+- 'none'
+Default is 'bar'.
+
+##### autoSlide #####
+If an anchor should be slided to or not. Default is true.
+
+##### autoPush #####
+If the anchor should alter the browsers history or not. Default is true.
+
+#### Mobile ####
+##### mobileBreakpoint #####
+The breakpoint in px. Default is 768.
+
+##### mobilePosition #####
+The position of the mobile menu. 'top', 'left' or 'right'. Default is 'top'.
+
+##### mobileToggleFloat #####
+Set the toggle icon to either 'left' or 'right'. Default is 'left'.
+
+##### mobileMenuWidth #####
+If mobilePosition is either left or right, then this defines the width of the menu. Given in %. Default is '70%'.
+
+##### mobileMenuFixed #####
+If the top menu bar should be fixed or not. Default is false.
+
+##### mobileToggleIcon #####
+Set a custom menu icon. Default is the hamburger.
+
+# Author #
+
 Author: Alfred Yrelin
-URL: https://github.com/alfredvaa/onepager
-
-
-
-SETTINGS
-
-mobile:
-Width where mobile menu is toggled.
-
-type:
-bar - show a color bar as active indicator
-color - highlight active link with color
-
+Website: http://www.yrelin.se

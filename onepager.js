@@ -5,42 +5,37 @@
 		var isAnimatied = false;
 		var lockSlideDown = false;
 		var body = $('body');
+		var ul = wrapper.children('ul');
 
 
 		var settings = $.extend({
-			mobile: 768,
-			type: 'bar',
-			mobileType: 'top',
-			mobileFloat: 'left',
+
+			activeType: 'bar',			// 'bar', 'color', 'box', 'none'
+			autoSlide: true,
+			autoPush: true,
+
+			mobileBreakpoint: 768,		// Pixels width
+			mobilePosition: 'top',		// 'top', 'left', 'right'
+			mobileToggleFloat: 'left',	// 'left', 'right'
 			mobileMenuWidth: '70%',
 			mobileMenuFixed: false,
-			customWrapperClass: 'onepager-menu',
-			menuToggleCustom:  "<span class='onepager-menu-bar'></span>\
+			mobileToggleIcon:  "<span class='onepager-menu-bar'></span>\
 								<span class='onepager-menu-bar'></span>\
 								<span class='onepager-menu-bar'></span>"
 		}, options);
 
 
-		wrapper.addClass(settings.customWrapperClass);
+		wrapper.addClass('onepager-menu').addClass('onepager-menu-active-'+settings.activeType);
 
-		var isMobile = $(window).width() < settings.mobile;
-
+		var isMobile = $(window).width() < settings.mobileBreakpoint;
 		if(isMobile) wrapper.addClass('mobile');
 
-		if(settings.type == 'bar' && !isMobile) {
-			var indicator = $("<div class='active-indicator'></div>");
+		if(settings.activeType == 'bar' && !isMobile) {
+			var indicator = $("<div class='onepager-active-indicator'></div>");
 			$('body').prepend(indicator);  
-
-			
-			// Set options
-			indicator.css({
-				'height': '5px',
-				'width': '1px',
-				'top': '0',
-				'position': 'fixed',
-				'z-index': '99999999999'
-			});
 		}
+
+		if(settings.mobileMenuFixed) wrapper.addClass('onepager-menu-fixed');
 
 		// Change the active menu item and move indicator
 		function changeActive(newActive) {
@@ -49,7 +44,7 @@
 			if($(newActive).length){
 				wrapper.find(newActive).addClass('active');
 
-				if(settings.type == 'bar' && !isMobile) {
+				if(settings.activeType == 'bar' && !isMobile) {
 					indicator.stop().animate({
 						'left': $(newActive).offset().left,
 						'width': $(newActive).outerWidth()			
@@ -69,19 +64,24 @@
 				changeActive(link);
 			}
 
-			var toPos = $(link).attr('href');
+			if(settings.autoSlide) {
 
-			if(toPos.charAt(0) == '#') { 
-				distanceTop = $(toPos).offset().top-$('body').offset().top+'px';
-			} else {
-				distanceTop = '0px';
+				var toPos = $(link).attr('href');
+
+				if(toPos.charAt(0) == '#') { 
+					distanceTop = $(toPos).offset().top-$('body').offset().top+'px';
+				} else {
+					distanceTop = '0px';
+				}
+
+				$('html, body').animate({scrollTop: distanceTop}, function(){
+					isAnimatied = false;
+				});
 			}
 
-			$('html, body').animate({scrollTop: distanceTop}, function(){
-				isAnimatied = false;
-			});
-
-			history.pushState(null, null, $(this).attr('href'));
+			if(settings.autoPush) {
+				history.pushState(null, null, $(this).attr('href'));
+			}
 		});
 
 		// Autoslide
@@ -135,44 +135,31 @@
 
 
 		/////////////////
-		// mobile menu //
+		// Mobile menu //
 		/////////////////
 
 
-		if($(window).width() < settings.mobile) {
-			var ul = wrapper.find('ul').first();
-			var menuToggle = $("<a href='#' class='onepager-menu-toggle'>"+settings.menuToggleCustom+"</a>");
+		if(isMobile) {
+			var menuToggle = 
+				$("<a href='#' class='onepager-menu-toggle'>"+settings.mobileToggleIcon+"</a>")
+					.addClass(settings.mobileToggleFloat);
 
 			var onePagerTitle = wrapper.find('.onepager-title');
 
-			wrapper.prepend(menuToggle).prepend(onePagerTitle);
+			wrapper
+				.prepend(menuToggle)
+				.prepend(onePagerTitle);
 
-			menuToggle.css({
-				'cursor': 'pointer'
-			});
+			//////////////////
+			// Position TOP //
+			//////////////////
 
-			if(settings.mobileFloat == 'right') {
-				menuToggle.addClass('right');
-			} else {
-				menuToggle.addClass('left');
-			}
-
-			ul.find('li').css({
-				'width': '100%;',
-				'display': 'block'
-			});
-
-			if(settings.mobileType == 'top') {
-				ul.hide().css({
-					'position': 'absolute',
-					'left': '0',
-					'right': '0',
-					'margin': '0',
-					'padding': '0'
-				});
+			if(settings.mobilePosition == 'top') {
+				ul.addClass('onepager-position-top');
 
 				menuToggle.click(function(e){
 					e.preventDefault();
+					if(!settings.mobileMenuFixed) wrapper.toggleClass('onepager-menu-fixed');
 					ul.slideToggle('fast');
 				});
 
@@ -181,18 +168,12 @@
 				});
 
 
-			} else if(settings.mobileType == 'left' || settings.mobileType == 'right') {
-				var overlay = 
-					$("<div class='onepager-menu-overlay'></div>")
-					.css({
-						'width': '100%',
-						'height': '100%',
-						'position': 'fixed',
-						'background': '#000000',
-						'z-index':'9999999',
-						'opacity': '0.5',
-						'display': 'none'
-					});
+			/////////////////////////
+			// Position LEFT/RIGHT //
+			/////////////////////////
+
+			} else if(settings.mobilePosition == 'left' || settings.mobilePosition == 'right') {
+				var overlay = $("<div class='onepager-menu-overlay'></div>");
 
 				if(!$('.onepager-page-wrapper').length) {
 					body
@@ -219,15 +200,11 @@
 					'padding': '0',
 					//'height': '100%',
 					'display': 'none'			
-				});
+				}).addClass('onepager-position-leftright');
 
-				if(settings.mobileType == 'right') {
+				if(settings.mobilePosition == 'right') {
 					ul.css({'left': 'auto', 'right': '0'});
 				}
-
-				/*if(settings.mobileMenuFixed) {
-					ul.css('margin-top', wrapper.height());
-				}*/
 
 				var isVisible = false;
 
@@ -248,6 +225,7 @@
 				menuToggle.click(function(e){
 					e.preventDefault();
 					$('.onepager-menu').children('ul').hide();
+					if(!settings.mobileMenuFixed) wrapper.toggleClass('onepager-menu-fixed');
 
 					if(isVisible) {
 						hideMenu();
@@ -258,13 +236,13 @@
 						// TODO add showMenu function.
 						$('.onepager-menu-toggle').addClass('rotate').removeClass('rotate-back');
 
-						if(settings.mobileType == 'left') {
+						if(settings.mobilePosition == 'left') {
 							pageWrapper.stop().animate({
 								marginLeft: settings.mobileMenuWidth
 							},'fast', function(){
 								ul.fadeIn();
 							});
-						} else if(settings.mobileType == 'right') {
+						} else if(settings.mobilePosition == 'right') {
 							pageWrapper.stop().animate({
 								marginLeft: '-'+settings.mobileMenuWidth
 							},'fast', function(){
