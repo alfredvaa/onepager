@@ -11,7 +11,7 @@ Example:
 
 `<section id="home"></section>`
 Author: Alfred Yrelin
-URL: soon
+URL: https://github.com/alfredvaa/onepager
 
 
 
