@@ -11,6 +11,7 @@
 		var settings = $.extend({
 
 			activeType: 'bar',			// 'bar', 'color', 'box', 'none'
+			activeDefault: true,
 			autoSlide: true,
 			autoPush: true,
 
@@ -21,7 +22,8 @@
 			mobileMenuFixed: false,
 			mobileToggleIcon:  "<span class='onepager-menu-bar'></span>\
 								<span class='onepager-menu-bar'></span>\
-								<span class='onepager-menu-bar'></span>"
+								<span class='onepager-menu-bar'></span>",
+			mobileToggleAnimate: true
 		}, options);
 
 
@@ -55,13 +57,12 @@
 
 		// move indicator & slide down
 		wrapper.find('a').click(function(e){
-			e.preventDefault();
-
 			isAnimatied = true;
 			var link = this;
 
-			if(!$(this).parent().hasClass('onepager-title')) {
+			if(!$(this).parent().hasClass('onepager-title')) { // TODO add class for external links (or depend on hash)
 				changeActive(link);
+				e.preventDefault();
 			}
 
 			if(settings.autoSlide) {
@@ -120,8 +121,10 @@
 					prevId = v;
 				});
 
-				if($(window).scrollTop() < 10 && $(firstMenuItem).length) {
-					closest = firstMenuItem;
+				if(settings.activeDefault) {
+					if($(window).scrollTop() < 10 && $(firstMenuItem).length) {
+						closest = firstMenuItem;
+					}
 				}
 
 				if(lastClosest != closest) {
@@ -180,6 +183,8 @@
 						.prepend(overlay)
 						.wrapInner("<div class='onepager-page-wrapper'></div>")
 						.prepend($('header')); // TODO
+				} else {
+					overlay = $('.onepager-menu-overlay');
 				}
 
 				var pageWrapper = 
@@ -229,12 +234,20 @@
 
 					if(isVisible) {
 						hideMenu();
-						$('.onepager-menu-toggle').addClass('rotate-back').removeClass('rotate');
+						if(settings.mobileToggleAnimate) 
+							wrapper
+								.find('.onepager-menu-toggle')
+								.addClass('rotate-back')
+								.removeClass('rotate'); // TODO move
 
 						isVisible = false;
 					} else {
 						// TODO add showMenu function.
-						$('.onepager-menu-toggle').addClass('rotate').removeClass('rotate-back');
+						if(settings.mobileToggleAnimate) 
+							wrapper
+								.find('.onepager-menu-toggle')
+								.addClass('rotate')
+								.removeClass('rotate-back'); // TODO move
 
 						if(settings.mobilePosition == 'left') {
 							pageWrapper.stop().animate({
