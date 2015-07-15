@@ -89,7 +89,7 @@
 		var menu = {}
 
 		wrapper.find('a').each(function() {
-			if(!$(this).parent().hasClass('onepager-title')) {
+			if(!$(this).parent().hasClass('onepager-title') && $(this).attr('href').charAt(0) == '#') {
 				var theID = $(this).attr('href');
 
 				if($(theID).length != 0) {
@@ -216,7 +216,7 @@
 				function hideMenu() {
 					lockSlideDown = true;
 					//ul.fadeOut('fast',function(){
-					$('.onepager-menu').children('ul').fadeOut('fast', function(){
+					$('.onepager-menu').children('ul').fadeOut('fast', function(){ // TODO wrapper??
 
 						pageWrapper.stop().animate({
 							marginLeft: '0'
