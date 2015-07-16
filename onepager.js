@@ -20,9 +20,12 @@
 			mobileToggleFloat: 'left',	// 'left', 'right'
 			mobileMenuWidth: '70%',
 			mobileMenuFixed: false,
-			mobileToggleIcon:  "<span class='onepager-menu-bar'></span>\
-								<span class='onepager-menu-bar'></span>\
-								<span class='onepager-menu-bar'></span>",
+			mobileToggleIcon:  		"<span class='onepager-menu-bar'></span>\
+									<span class='onepager-menu-bar'></span>\
+									<span class='onepager-menu-bar'></span>",
+			mobileToggleIconHide: 	"<span class='onepager-menu-bar'></span>\
+									<span class='onepager-menu-bar'></span>\
+									<span class='onepager-menu-bar'></span>",
 			mobileToggleAnimate: true
 		}, options);
 
@@ -198,13 +201,7 @@
 				});
 
 				ul.css({
-					'width': settings.mobileMenuWidth,
-					//'position': 'fixed',
-					'left': '0',
-					'bottom': '0',
-					'padding': '0',
-					//'height': '100%',
-					'display': 'none'			
+					'width': settings.mobileMenuWidth
 				}).addClass('onepager-position-leftright');
 
 				if(settings.mobilePosition == 'right') {
@@ -214,8 +211,15 @@
 				var isVisible = false;
 
 				function hideMenu() {
+					if(settings.mobileToggleAnimate) 
+						wrapper
+							.find('.onepager-menu-toggle')
+							.addClass('rotate-back')
+							.removeClass('rotate'); // TODO move
+
+					menuToggle.html(settings.mobileToggleIcon);
 					lockSlideDown = true;
-					//ul.fadeOut('fast',function(){
+
 					$('.onepager-menu').children('ul').fadeOut('fast', function(){ // TODO wrapper??
 
 						pageWrapper.stop().animate({
@@ -232,18 +236,16 @@
 
 				menuToggle.click(function(e){
 					e.preventDefault();
-					$('.onepager-menu').children('ul').hide();
+					//$('.onepager-menu').children('ul').hide();
 					if(!settings.mobileMenuFixed) wrapper.toggleClass('onepager-menu-fixed');
 
 					if(isVisible) {
 						hideMenu();
-						if(settings.mobileToggleAnimate) 
-							wrapper
-								.find('.onepager-menu-toggle')
-								.addClass('rotate-back')
-								.removeClass('rotate'); // TODO move
 					} else {
 						// TODO add showMenu function.
+
+						menuToggle.html(settings.mobileToggleIconHide);
+
 						if(settings.mobileToggleAnimate) 
 							wrapper
 								.find('.onepager-menu-toggle')
