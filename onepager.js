@@ -224,8 +224,11 @@
 							lockSlideDown = false;
 						});
 					});
-					overlay.fadeOut('fast');					
+					overlay.fadeOut('fast');	
+					isVisible = false;				
 				}
+
+				$('.onepager-action-hide-menu').click(hideMenu);
 
 				menuToggle.click(function(e){
 					e.preventDefault();
@@ -239,8 +242,6 @@
 								.find('.onepager-menu-toggle')
 								.addClass('rotate-back')
 								.removeClass('rotate'); // TODO move
-
-						isVisible = false;
 					} else {
 						// TODO add showMenu function.
 						if(settings.mobileToggleAnimate) 
