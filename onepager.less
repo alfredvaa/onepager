@@ -50,19 +50,18 @@ body {
 	list-style: none;
 	margin: 0;
 	padding:0;
-	background: #ffffff;
 
 	&.onepager-position-leftright {
 		position:fixed;
 		width:50%;
 		z-index:-2;
-		transition: z-index .2s step-start, visibility .2s step-end;
+		transition: z-index .1s step-start, visibility .1s step-end;
 		height:100%;
 		overflow-y: scroll;
 		visibility: hidden;
 
 		&.visible {
-			transition: z-index .2s step-end, visibility .2s step-start;
+			transition: z-index .1s step-end, visibility .1s step-start;
 			z-index: 1;
 			visibility: visible;
 		}
