@@ -5,7 +5,7 @@
 		var isAnimatied = false;
 		var lockSlideDown = false;
 		var body = $('body');
-		var ul = wrapper.children('ul');
+		var ul = wrapper.children('ul').addClass('onepager-menu-list');
 
 
 		var settings = $.extend({
@@ -41,6 +41,7 @@
 		}
 
 		if(settings.mobileMenuFixed) wrapper.addClass('onepager-menu-fixed');
+		if(settings.mobileMenuFixed) body.addClass('onepager-menu-fixed');
 
 		// Change the active menu item and move indicator
 		function changeActive(newActive) {
@@ -192,96 +193,47 @@
 
 				var pageWrapper = 
 					$('.onepager-page-wrapper')
+					.addClass(settings.mobilePosition);
+
+				ul
+					.insertBefore(pageWrapper)
+					.addClass(settings.mobilePosition)
 					.css({
-						'width': '100%'
-					});
+						'width': settings.mobileMenuWidth
+					})
+					.addClass('onepager-position-leftright');
 
-				$('html').css({
-					'overflow-x': 'hidden'
-				});
 
-				ul.css({
-					'width': settings.mobileMenuWidth
-				}).addClass('onepager-position-leftright');
-
-				if(settings.mobilePosition == 'right') {
-					ul.css({'left': 'auto', 'right': '0'});
-				}
-
-				var isVisible = false;
-
-				function hideMenu() {
-					if(settings.mobileToggleAnimate) 
-						wrapper
-							.find('.onepager-menu-toggle')
-							.addClass('rotate-back')
-							.removeClass('rotate'); // TODO move
-
-					menuToggle.html(settings.mobileToggleIcon);
-					lockSlideDown = true;
-
-					$('.onepager-menu').children('ul').fadeOut('fast', function(){ // TODO wrapper??
-
-						pageWrapper.stop().animate({
-							marginLeft: '0'
-						},'fast', function(){
-							lockSlideDown = false;
-						});
-					});
-					overlay.fadeOut('fast');	
-					isVisible = false;				
-				}
-
-				$('.onepager-action-hide-menu').click(hideMenu);
-
-				menuToggle.click(function(e){
+				function toggleMenu(e){
 					e.preventDefault();
-					//$('.onepager-menu').children('ul').hide();
-					if(!settings.mobileMenuFixed) wrapper.toggleClass('onepager-menu-fixed');
 
-					if(isVisible) {
-						hideMenu();
+					ul.toggleClass('visible');
+					pageWrapper.toggleClass('visible');
+					overlay.toggleClass('visible');
+
+					if(pageWrapper.hasClass('visible')) {
+						$('.onepager-page-wrapper.right').css({
+								'transform': 'translateX(-'+settings.mobileMenuWidth+')'
+						});
+						$('.onepager-page-wrapper.left').css({
+								'transform': 'translateX('+settings.mobileMenuWidth+')'
+						});
 					} else {
-						// TODO add showMenu function.
+						$('.onepager-page-wrapper.right').css({
+								'transform': 'translateX(0)'
+						});	
+						$('.onepager-page-wrapper.left').css({
+								'transform': 'translateX(0)'
+						});
 
-						menuToggle.html(settings.mobileToggleIconHide);
-
-						if(settings.mobileToggleAnimate) 
-							wrapper
-								.find('.onepager-menu-toggle')
-								.addClass('rotate')
-								.removeClass('rotate-back'); // TODO move
-
-						if(settings.mobilePosition == 'left') {
-							pageWrapper.stop().animate({
-								marginLeft: settings.mobileMenuWidth
-							},'fast', function(){
-								ul.fadeIn();
-							});
-						} else if(settings.mobilePosition == 'right') {
-							pageWrapper.stop().animate({
-								marginLeft: '-'+settings.mobileMenuWidth
-							},'fast', function(){
-								ul.fadeIn();
-							});							
-						}
-
-						overlay
-							.stop()
-							.fadeIn()
-							.click(function(){
-								hideMenu();
-								isVisible = false;					
-							});
-
-						isVisible = true;
+						menuToggle.html(settings.mobileToggleIconHide);			
 					}
-				});
+				}
 
-				wrapper.find('a').not('.onepager-menu-toggle').click(function(){
-					isVisible = false;
-					hideMenu();
-				});
+				menuToggle.click(toggleMenu);
+				overlay.click(toggleMenu);
+				ul.find('a').click(toggleMenu);
+				$('.onepager-action-hide-menu').click(toggleMenu);
 			}
 		}
 

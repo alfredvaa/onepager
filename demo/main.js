@@ -1,8 +1,8 @@
 $(document).ready(function(){
 	$('#menu').onepager({
-		mobileMenuFixed: false,
-		mobilePosition: 'right',
+		mobileMenuFixed: true,
+		mobilePosition: 'left',
 		mobileToggleFloat: 'right',
-		mobileMenuWidth: '90%'
+		mobileMenuWidth: '40%'
 	});
 });
